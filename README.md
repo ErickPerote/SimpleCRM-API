@@ -22,9 +22,8 @@ SimpleCRM  requires [Node.js](https://nodejs.org/) v10+ to run.
 Install the dependencies and devDependencies and start the server.
 
 ```sh
-cd dillinger
-npm i
-node app
+docker-compose up -d
+docker exec -it mssql /opt/mssql-tools/bin/sqlcmd -U SA -P "mssql1Ipw" -Q "CREATE DATABASE SimpleCRM"
 ```
 
 For production environments...

@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+  sqlserver:
+    container_name: mssql
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      SA_PASSWORD: "mssql1Ipw"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Developer"
+    ports:
+      - "1433:1433"
+  mssqltools:
+    image: mcr.microsoft.com/mssql-tools
+    depends_on:
+      - sqlserver
+    command: /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P mssql1Ipw -Q "CREATE DATABASE SimpleCRM"
