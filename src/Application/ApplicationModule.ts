@@ -9,9 +9,9 @@ import { ClientController } from './Controller/ClientController';
 @Module({
   imports: [DomainModule,    
     JwtModule.register({
-      secret: 'abcdABCD1234554321',
+      secret: process.env.SECRET_KEY,
       signOptions: {
-        expiresIn: 3600,
+        expiresIn: process.env.EXPIRATION_TOKEN,
       },
     })
   ],

@@ -10,8 +10,34 @@ services:
       MSSQL_PID: "Developer"
     ports:
       - "1433:1433"
+    networks:
+      - api-compose-network
+
   mssqltools:
     image: mcr.microsoft.com/mssql-tools
     depends_on:
       - sqlserver
     command: /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P mssql1Ipw -Q "CREATE DATABASE SimpleCRM"
+
+  api:
+    container_name: api
+    build:
+      context: .
+    ports:
+      - 3000:3000
+    environment:
+      HOST: "mssql"
+      PORT: 1433
+      USERNAME: "sa"
+      PASSWORD: "mssql1Ipw"
+      DATABASE: "SimpleCRM"
+      SECRET_KEY: "vCpl8LAm0q"
+      EXPIRATION_TOKEN: 3600
+    depends_on:
+      - sqlserver
+    networks:
+      - api-compose-network
+
+networks: 
+  api-compose-network:
+    driver: bridge
