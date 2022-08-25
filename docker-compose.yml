@@ -12,12 +12,21 @@ services:
       - "1433:1433"
     networks:
       - api-compose-network
+    volumes:
+      - ./mssql:/mssql
 
   mssqltools:
     image: mcr.microsoft.com/mssql-tools
+    environment:
+      HOST: "sqlserver"
+      USERNAME: "sa"
+      PASSWORD: "mssql1Ipw"
+      DATABASE: "SimpleCRM"
     depends_on:
       - sqlserver
-    command: /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P mssql1Ipw -Q "CREATE DATABASE SimpleCRM"
+    command: /opt/mssql-tools/bin/sqlcmd -S $HOST -U $USERNAME -P $PASSWORD -Q "RESTORE DATABASE ${DATABASE}  FROM  DISK='/mssql/db.bkp'"
+    networks:
+      - api-compose-network
 
   api:
     container_name: api
@@ -26,7 +35,7 @@ services:
     ports:
       - 3000:3000
     environment:
-      HOST: "mssql"
+      HOST: "sqlserver"
       PORT: 1433
       USERNAME: "sa"
       PASSWORD: "mssql1Ipw"

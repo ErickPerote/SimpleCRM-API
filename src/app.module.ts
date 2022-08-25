@@ -7,6 +7,8 @@ import { InfrastructureModule } from './Infrastructure/infrastructureMoule';
 import { ApplicationModule } from './Application/ApplicationModule';
 import { ConfigModule } from '@nestjs/config';
 
+
+
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -27,4 +29,5 @@ import { ConfigModule } from '@nestjs/config';
   controllers: [AppController],
   providers: [AppService],
 })
+
 export class AppModule {}
