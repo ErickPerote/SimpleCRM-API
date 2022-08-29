@@ -5,6 +5,7 @@ import { ClientRepository } from 'src/Domain/Client/ClientRepository';
 
 import { RegisterDto } from 'src/Application/DTOs/RegisterClientDto';
 import { DeleteClientDto } from 'src/Application/DTOs/DeleteClientDto';
+import { get } from 'http';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('client')
@@ -17,6 +18,15 @@ export class ClientController {
         return user.clients
     }
 
+    @Get('/:id')
+    async listId(@Request() req: any , @Param() param: DeleteClientDto) {
+        let userId = await this.clientRepository.findOne(param.id, req.user.id );
+
+        
+
+        return userId
+    }
+
     @Post()
     async create(@Body() body: RegisterDto, @Request() req: any) {
         let client = await this.clientRepository.create({ ...body, user_id: req.user.id });
@@ -25,7 +35,7 @@ export class ClientController {
 
     @Put('/:id')
     async update(@Body() body: Partial<RegisterDto>, @Request() req: any, @Param() param: DeleteClientDto) {
-        let client = await this.clientRepository.findOne(param.id);
+        let client = await this.clientRepository.findOne(param.id, req.user.id);
 
         if(!client || client.user_id !== req.user.id) {
             throw new HttpException({ status: HttpStatus.UNAUTHORIZED, error: 'Client Not Found' }, HttpStatus.UNAUTHORIZED);
@@ -38,7 +48,7 @@ export class ClientController {
     
     @Delete('/:id')
     async delete(@Body() body: Partial<RegisterDto>, @Request() req: any, @Param() param: DeleteClientDto) {
-        let client = await this.clientRepository.findOne(param.id);
+        let client = await this.clientRepository.findOne(param.id, req.user.id);
 
         if(!client || client.user_id !== req.user.id) {
             throw new HttpException({ status: HttpStatus.UNAUTHORIZED, error: 'Client Not Found' }, HttpStatus.UNAUTHORIZED);

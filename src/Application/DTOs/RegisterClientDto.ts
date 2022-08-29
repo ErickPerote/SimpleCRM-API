@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import { ArrayMinSize, IsArray, IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString, IsEmail } from 'class-validator';
 
 export class RegisterDto {
@@ -7,9 +8,6 @@ export class RegisterDto {
 
   @IsEmail({}, { message: 'Invalid email message' })
   email: string;
-
-  @IsString()
-  zip_code: string;
 
   @IsString()
   street: string;

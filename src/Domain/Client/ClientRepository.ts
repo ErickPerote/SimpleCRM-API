@@ -16,8 +16,8 @@ export class ClientRepository implements IUserRepository {
         return this.userModel.findAll();
       }
     
-      async findOne(id: number): Promise<Client> {
-        return this.userModel.findOne({ where: { id } });
+      async findOne(id: number, user_id): Promise<Client> {
+        return this.userModel.findOne({ where: { id: id, user_id } });
       }
 
       async findByEmail(email: string): Promise<Client> {
@@ -29,7 +29,7 @@ export class ClientRepository implements IUserRepository {
       }
       
       async remove(id: number): Promise<void> {
-        const user = await this.findOne(id);
+        const user = await this.userModel.findOne({ where: { id } });
         await user.destroy();
       }
 
