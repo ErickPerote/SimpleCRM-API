@@ -14,7 +14,9 @@ export class Client extends Model<Client> {
   @Column
   email: string;
 
-
+  @Column
+  zip_code: number;
+  
   @Column
   street: string;
 

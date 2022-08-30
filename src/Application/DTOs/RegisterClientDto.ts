@@ -8,6 +8,10 @@ export class RegisterDto {
 
   @IsEmail({}, { message: 'Invalid email message' })
   email: string;
+  
+  @IsString()
+  @IsNumber()
+  zip_code: number;
 
   @IsString()
   street: string;

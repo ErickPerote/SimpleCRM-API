@@ -7,4 +7,5 @@ export class IClient {
     locality: string;
     description: string;
     phone: string;
+    zip_code: number;
 }

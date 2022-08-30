@@ -22,11 +22,16 @@ services:
       USERNAME: "sa"
       PASSWORD: "mssql1Ipw"
       DATABASE: "SimpleCRM"
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S $HOST", "-U $USERNAME", "-P $PASSWORD", "-Q", "select 1"]
+      interval: 1s
+      retries: 20
     depends_on:
       - sqlserver
     command: /opt/mssql-tools/bin/sqlcmd -S $HOST -U $USERNAME -P $PASSWORD -Q "RESTORE DATABASE ${DATABASE}  FROM  DISK='/mssql/db.bkp'"
     networks:
       - api-compose-network
+      
 
   api:
     container_name: api
