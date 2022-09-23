@@ -9,7 +9,7 @@ export class RegisterDto {
   @IsEmail({}, { message: 'Invalid email message' })
   email: string;
   
-  @IsString()
+  @Type(() => Number) 
   @IsNumber()
   zip_code: number;
 
