@@ -9,7 +9,7 @@ export class WhoamiController {
 
     @Get()
     async whoami(@Request() req: any) {
-        let user = req.user.dataValues;
+        let user = req.user.id;
         delete user.password
         delete user.id
         return user

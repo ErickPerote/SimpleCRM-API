@@ -18,7 +18,7 @@ export class UserRepository implements IUserRepository {
       }
 
 
-      async findClientsByUser(id: number): Promise<User> {
+    async findClientsByUser(id: number): Promise<User> {
         return this.userModel.findOne({   
           where: { id },
           include : [{
@@ -28,7 +28,7 @@ export class UserRepository implements IUserRepository {
         });
       }
     
-      async findOne(id: string): Promise<User> {
+      async findOne(id: number): Promise<User> {
         return this.userModel.findOne({ where: { id } });
       }
 
@@ -40,7 +40,7 @@ export class UserRepository implements IUserRepository {
           return this.userModel.create(user);
       }
       
-      async remove(id: string): Promise<void> {
+      async remove(id: number): Promise<void> {
         const user = await this.findOne(id);
         await user.destroy();
       }

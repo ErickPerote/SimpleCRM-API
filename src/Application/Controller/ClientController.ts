@@ -1,4 +1,5 @@
-import { Controller, Get, Body, HttpException, HttpStatus, UseGuards, Request, Post, Delete, Put, Param } from '@nestjs/common';
+import { clientParams } from './../DTOs/RegisterClientDto';
+import { Controller, Get, Body, HttpException, HttpStatus, UseGuards, Request, Post, Delete, Put, Param, Query } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { UserRepository } from 'src/Domain/User/UserRepository';
 import { ClientRepository } from 'src/Domain/Client/ClientRepository';
@@ -13,17 +14,14 @@ export class ClientController {
     constructor(private readonly userRepository: UserRepository, private readonly clientRepository: ClientRepository) { }
 
     @Get()
-    async list(@Request() req: any) {
-        let user = await this.userRepository.findClientsByUser(req.user.id);
-        return user.clients
+    async list(@Request() req: any, @Query() params: clientParams) {
+        let user = await this.clientRepository.filters(params, req.user.id);
+        return user
     }
 
     @Get('/:id')
     async listId(@Request() req: any , @Param() param: DeleteClientDto) {
         let userId = await this.clientRepository.findOne(param.id, req.user.id );
-
-        
-
         return userId
     }
 
