@@ -6,6 +6,7 @@ import { IClient } from './IClient';
 import { clientParams } from "src/Application/DTOs/RegisterClientDto";
 import { Op } from 'sequelize';
 import { pickBy } from 'lodash';
+import { count } from "console";
 
 
 @Injectable()
@@ -61,7 +62,7 @@ export class ClientRepository implements IUserRepository {
       offset: offset
     };
 
-    const total = await Client.count();
+    const total = await this.clientModel.count({ where: whereClause });
 
     return {
       data: await this.clientModel.findAll(query),

@@ -1,28 +1,23 @@
-# Base image
-FROM node:18
+# Use a imagem base do Node.js
+FROM node:14-alpine
 
-# Create app directory
-WORKDIR /usr/src/app
+# Instale o Docker CLI
+RUN apk update && apk add docker-compose
 
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-COPY package.json ./
+# Diretório de trabalho dentro do contêiner
+WORKDIR /app
 
-# Install app dependencies
+# Copie o package.json e o package-lock.json para o diretório de trabalho
+COPY package*.json ./
+
+# Instale as dependências
 RUN npm install
 
-# Bundle app source
+# Copie o código-fonte para o diretório de trabalho
 COPY . .
 
-ENV HOST=localhost
-ENV ENV PORT=1433
-ENV USERNAME=sa
-ENV PASSWORD=mssql1Ipw
-ENV DATABASE=SimpleCRM
-ENV SECRET_KEY=vCpl8LAm0q
-ENV EXPIRATION_TOKEN=3600
+# Exponha a porta em que o backend estará escutando (substitua a porta 3000, se necessário)
+EXPOSE 3000
 
-# Creates a "dist" folder with the production build
-RUN npm run build
-
-# Start the server using the production build
-CMD [ "node", "dist/main.js" ]
+# Comando para iniciar o servidor do backend juntamente com o banco de dados usando o docker-compose
+CMD ["docker-compose", "up", "--build", "-d", "db", "&&", "npm", "start"]

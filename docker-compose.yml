@@ -15,25 +15,6 @@ services:
     networks:
       - api-compose-network
       
-  api:
-    container_name: api
-    build:
-      context: .
-    ports:
-      - 3000:3000
-    environment:
-      HOST: "sqlserver"
-      PORT: 1433
-      USERNAME: "sa"
-      PASSWORD: "mssql1Ipw"
-      DATABASE: "SimpleCRM"
-      SECRET_KEY: "vCpl8LAm0q"
-      EXPIRATION_TOKEN: 3600
-    depends_on:
-      - sqlserver
-    networks:
-      - api-compose-network
-
 networks: 
   api-compose-network:
     driver: bridge
